@@ -9,12 +9,15 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.ascentracoresolutions.equiskill.Adapters.InternAdapter;
 import com.ascentracoresolutions.equiskill.Adapters.StudentAdapter;
+import com.ascentracoresolutions.equiskill.Getters.Interns;
 import com.ascentracoresolutions.equiskill.Getters.Student;
 import com.ascentracoresolutions.equiskill.MainActivity;
 
@@ -41,10 +44,19 @@ public class InsertFetch {
     private Class<?> activity;
     private ConstraintLayout main;
 
+    private LinearLayout mainLayout;
     SharedPreferences sharedPreferences;
+    private InternAdapter internAdapter;
+    private ArrayList<Interns> intern_list;
 
+    private String data;
 
+    private ArrayList<String> skillList;
 
+    public InsertFetch(String data, ArrayList<String> skillList) {
+        this.data = data;
+        this.skillList = skillList;
+    }
     public InsertFetch(StudentAdapter studentAdapter, ArrayList<Student> list) {
 
         this.studentAdapter = studentAdapter;
@@ -52,6 +64,22 @@ public class InsertFetch {
     }
 
 
+    public  InsertFetch(InternAdapter internAdapter, ArrayList<Interns> intern_list) {
+        this.internAdapter = internAdapter;
+        this.intern_list = intern_list;
+    }
+
+    // Internship upload constructor
+    public InsertFetch(Context context, TextView error, Button button, LinearLayout main) {
+        this.context = context;
+        this.error = error;
+        this.button = button;
+        mainLayout = main;
+    }
+
+    public InsertFetch(String data) {
+        this.data = data;
+    }
 
     //sign in  fetcher
     public InsertFetch(Context context, TextView error, Class<?> activity, Button button, ConstraintLayout main) {
@@ -113,6 +141,53 @@ public class InsertFetch {
                 Log.e(TAG, "onDataFetched: " + jsonObject);
 
 
+
+                if (internAdapter != null) {
+
+                        JSONArray jsonArray = jsonObject.getJSONArray("internships");
+
+                        for (int i = 0; i < jsonArray.length(); i++) {
+
+                            JSONObject internship = jsonArray.getJSONObject(i);
+
+                            String title = internship.getString("title");
+                            String company_name = internship.getString("company_name");
+                            String description = internship.getString("description");
+
+
+                            intern_list.add(new Interns(title, company_name, description, 4));
+                        }
+
+                        internAdapter.notifyDataSetChanged();
+
+                        return;
+
+
+                }
+
+                if (jsonObject.has("message")) {
+                    if (data.equals("upload")) {
+                        String message = jsonObject.getString("message");
+
+                        Log.e(TAG, "success");
+
+                        if (jsonObject.has("internship_id")) {
+
+                            String internshipId = jsonObject.getString("internship_id");
+
+                            for (String skill : skillList) {
+
+                                String skillUrl = MainActivity.url +
+                                        "company_skills/?name=" + skill +
+                                        "&internship_id=" + internshipId;
+
+                                fetchData(skillUrl);
+                            }
+                        }
+                        return;
+                    }
+                }
+
                 // sign in system
                 if (jsonObject.has("signin") && activity != null && button != null && main != null) {
                     sharedPreferences = context.getSharedPreferences(MainActivity.SHARED_PREF, MODE_PRIVATE);
@@ -166,20 +241,46 @@ public class InsertFetch {
                 }
                 // sign in end system
 
+                // Internship Upload Block
+                if (jsonObject.has("message") && !jsonObject.has("students") && activity == null) {
+
+                    String message = jsonObject.getString("message");
+
+                    if (message.equals("success")) {
+
+                        if (error != null) {
+                            error.setText("Internship Created Successfully!");
+                            error.setVisibility(TextView.VISIBLE);
+                        }
+
+                    } else {
+
+                        if (error != null) {
+                            error.setText(message);
+                            error.setVisibility(TextView.VISIBLE);
+                        }
+                    }
+
+                    if (button != null) button.setEnabled(true);
+                    if (mainLayout != null) mainLayout.setAlpha(1);
+
+                    return;
+                }
 
 
 
 
                 JSONArray jsonArray = jsonObject.getJSONArray("students");
 
-                for (int i = 0; i < jsonObject.length(); i++) {
+                list.clear();
+
+                for (int i = 0; i < jsonArray.length(); i++) {
+
                     JSONObject student = jsonArray.getJSONObject(i);
 
                     String name = student.getString("name");
-                    String score = student.getString("score");
-
+                    String score = String.valueOf(student.getDouble("score"));
                     String student_id = student.getString("student_id");
-
 
                     list.add(new Student(name, score, student_id));
                 }

@@ -3,6 +3,7 @@ package com.ascentracoresolutions.equiskill.Adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,17 +21,23 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
         this.list = list;
     }
 
-
     @NonNull
     @Override
-    public StudentAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lay_student, parent, false);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.lay_student, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull StudentAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
+        Student student = list.get(position);
+
+        holder.name.setText(student.getName());
+        holder.score.setText(student.getScore() + "%");
+
+        holder.rank.setText("#" + (position + 1));
     }
 
     @Override
@@ -39,10 +46,15 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.ViewHold
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+
+        TextView name, score, rank;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-
+            name = itemView.findViewById(R.id.tvName);
+            score = itemView.findViewById(R.id.tvScore);
+            rank = itemView.findViewById(R.id.tvRank);
         }
     }
 }

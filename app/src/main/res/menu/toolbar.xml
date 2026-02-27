@@ -2,8 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
+    <item android:title="upload_skill"
+        android:id="@+id/upload_skill"
+        android:icon="@drawable/upload"
+        app:showAsAction="ifRoom"
+        />
+
     <item android:title="@string/sign_in"
         android:id="@+id/sign_in"
         app:showAsAction="ifRoom"
         android:icon="@drawable/box_arrow_in_right"/>
+
+
+    <item android:title="upload"
+        android:id="@+id/upload"
+        android:icon="@drawable/upload"
+        app:showAsAction="ifRoom"
+        />
 </menu>

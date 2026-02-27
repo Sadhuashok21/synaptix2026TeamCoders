@@ -2,8 +2,15 @@ package com.ascentracoresolutions.equiskill.Getters;
 
 public class Student {
 
-    private final String name, score, student_id;
+    private String name;
+    private String score;
+    private String student_id;
 
+    public Student(String name, String score, String student_id) {
+        this.name = name;
+        this.score = score;
+        this.student_id = student_id;
+    }
 
     public String getName() {
         return name;
@@ -13,13 +20,7 @@ public class Student {
         return score;
     }
 
-    public String getStudent_id() {
+    public String getStudentId() {
         return student_id;
-    }
-
-    public Student(String name, String score, String studentId) {
-        this.name = name;
-        this.score = score;
-        student_id = studentId;
     }
 }

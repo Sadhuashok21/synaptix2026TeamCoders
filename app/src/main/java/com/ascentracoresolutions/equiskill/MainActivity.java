@@ -16,6 +16,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.ascentracoresolutions.equiskill.Admin.Upload.SkillUploadFragment;
+import com.ascentracoresolutions.equiskill.Admin.Upload.UploadFragment;
 import com.ascentracoresolutions.equiskill.SignIn.ChooseActivity;
 import com.ascentracoresolutions.equiskill.SignIn.SignInActivity;
 import com.ascentracoresolutions.equiskill.Users.Fragments.HomeFragment;
@@ -31,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private final ProfileFragment profileFragment = new ProfileFragment();
     private final HomeFragment homeFragment = new HomeFragment();
 
-    public static final String url = "";
+    public static final String url = "http://10.190.35.17:8000/apps/equiskill/";
     private Menu menu;
     SharedPreferences sharedPreferences;
 
@@ -65,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottom_nav);
         bottomNavigationView.setOnApplyWindowInsetsListener(null);
 
+        getSupportFragmentManager().beginTransaction().replace(R.id.home_layout, homeFragment).addToBackStack(null).commit();
 
         bottomNavigationView.setOnItemSelectedListener(menuItem -> {
 
@@ -81,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         Window window = getWindow();
-        window.setStatusBarColor(ContextCompat.getColor(this, R.color.main));
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.primary_blue));
         /* window.setNavigationBarColor(ContextCompat.getColor(this, R.color.button_color));*/
 
 
@@ -108,6 +111,10 @@ public class MainActivity extends AppCompatActivity {
        if (item.getItemId() == R.id.sign_in) {
             Intent i = new Intent(this, ChooseActivity.class);
             startActivity(i);
+       } else if(item.getItemId() == R.id.upload) {
+           getSupportFragmentManager().beginTransaction().replace(R.id.home_layout, new UploadFragment()).commit();
+       } else if(item.getItemId() == R.id.upload_skill) {
+           getSupportFragmentManager().beginTransaction().replace(R.id.home_layout, new SkillUploadFragment()).commit();
        }
         return super.onOptionsItemSelected(item);
     }
