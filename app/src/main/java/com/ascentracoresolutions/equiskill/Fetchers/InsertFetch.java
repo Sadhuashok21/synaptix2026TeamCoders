@@ -16,8 +16,11 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.ascentracoresolutions.equiskill.Adapters.InternAdapter;
+import com.ascentracoresolutions.equiskill.Adapters.SkillAdapter;
 import com.ascentracoresolutions.equiskill.Adapters.StudentAdapter;
+import com.ascentracoresolutions.equiskill.Admin.AdminActivity;
 import com.ascentracoresolutions.equiskill.Getters.Interns;
+import com.ascentracoresolutions.equiskill.Getters.Skill;
 import com.ascentracoresolutions.equiskill.Getters.Student;
 import com.ascentracoresolutions.equiskill.MainActivity;
 
@@ -34,7 +37,8 @@ import java.util.concurrent.Executors;
 
 public class InsertFetch {
 
-    private final String TAG = "AllFetcher", USER_ID_SIGN = "user_id_sign";
+    public final String TAG = "AllFetcher";
+    public static final String USER_ID_SIGN = "user_id_sign";
 
     private StudentAdapter studentAdapter;
     private ArrayList<Student> list;
@@ -52,6 +56,8 @@ public class InsertFetch {
     private String data;
 
     private ArrayList<String> skillList;
+    private ArrayList<Skill> sk_l;
+    private SkillAdapter skillAdapter;
 
     public InsertFetch(String data, ArrayList<String> skillList) {
         this.data = data;
@@ -63,6 +69,11 @@ public class InsertFetch {
         this.list = list;
     }
 
+
+    public InsertFetch(SkillAdapter skillAdapter, ArrayList<Skill> sk_l) {
+        this.skillAdapter = skillAdapter;
+        this.sk_l = sk_l;
+    }
 
     public  InsertFetch(InternAdapter internAdapter, ArrayList<Interns> intern_list) {
         this.internAdapter = internAdapter;
@@ -141,6 +152,22 @@ public class InsertFetch {
                 Log.e(TAG, "onDataFetched: " + jsonObject);
 
 
+                if (skillAdapter != null) {
+                    JSONArray jsonArray = jsonObject.getJSONArray("skills");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+
+                        JSONObject skill = jsonArray.getJSONObject(i);
+
+                        String name = skill.getString("name");
+                        sk_l.add(new Skill(name, skill.getInt("level")));
+                    }
+
+                    skillAdapter.notifyDataSetChanged();
+
+                    return;
+
+                }
+
 
                 if (internAdapter != null) {
 
@@ -155,7 +182,7 @@ public class InsertFetch {
                             String description = internship.getString("description");
 
 
-                            intern_list.add(new Interns(title, company_name, description, 4));
+                            intern_list.add(new Interns(title, company_name, description, internship.getString("internship_id"),  internship.getInt("score")));
                         }
 
                         internAdapter.notifyDataSetChanged();
@@ -165,28 +192,6 @@ public class InsertFetch {
 
                 }
 
-                if (jsonObject.has("message")) {
-                    if (data.equals("upload")) {
-                        String message = jsonObject.getString("message");
-
-                        Log.e(TAG, "success");
-
-                        if (jsonObject.has("internship_id")) {
-
-                            String internshipId = jsonObject.getString("internship_id");
-
-                            for (String skill : skillList) {
-
-                                String skillUrl = MainActivity.url +
-                                        "company_skills/?name=" + skill +
-                                        "&internship_id=" + internshipId;
-
-                                fetchData(skillUrl);
-                            }
-                        }
-                        return;
-                    }
-                }
 
                 // sign in system
                 if (jsonObject.has("signin") && activity != null && button != null && main != null) {
@@ -196,10 +201,20 @@ public class InsertFetch {
 
                     if (jsonObject.has("user_type")){
 
-                        sharedPreferences.edit().putString(MainActivity.USER_TYPE, jsonObject.getString("user_type")).apply();
-                        sharedPreferences.edit().putString(MainActivity.USER_ID, jsonObject.getString("signin")).apply();
+                        String user_type =  jsonObject.getString("user_type");
 
-                        context.startActivity(new Intent(context, activity));
+
+
+                        sharedPreferences.edit().putString(MainActivity.USER_TYPE, user_type).apply();
+
+                        sharedPreferences.edit().putString(MainActivity.USER_ID, jsonObject.getString("signin")).apply();
+                        if (user_type.equals("user")) {
+
+                            context.startActivity(new Intent(context, activity));
+                        } else {
+
+                            context.startActivity(new Intent(context, AdminActivity.class));
+                        }
 
                     }
 
@@ -287,6 +302,30 @@ public class InsertFetch {
 
                 studentAdapter.notifyDataSetChanged();
 
+
+
+                if (jsonObject.has("message")) {
+                    if (data.equals("upload")) {
+                        String message = jsonObject.getString("message");
+
+                        Log.e(TAG, "success");
+
+                        if (jsonObject.has("internship_id")) {
+
+                            String internshipId = jsonObject.getString("internship_id");
+
+                            for (String skill : skillList) {
+
+                                String skillUrl = MainActivity.url +
+                                        "company_skills/?name=" + skill +
+                                        "&internship_id=" + internshipId;
+
+                                fetchData(skillUrl);
+                            }
+                        }
+                        return;
+                    }
+                }
 
             } catch (Exception e) {
                 Log.e(TAG, "JSON parsing error: " + e);

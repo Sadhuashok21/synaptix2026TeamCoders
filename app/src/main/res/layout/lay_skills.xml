@@ -3,13 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp">
 
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="name"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent" />
 
 
@@ -18,6 +22,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="sfjsu"
+        android:padding="4dp"
+        android:background="@drawable/border_orange"
+        android:textColor="@color/black"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.953"
         app:layout_constraintStart_toEndOf="@+id/name"

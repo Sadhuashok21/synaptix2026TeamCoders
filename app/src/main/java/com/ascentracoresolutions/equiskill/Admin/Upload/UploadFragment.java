@@ -47,6 +47,10 @@ public class UploadFragment extends Fragment {
         btnCreate = view.findViewById(R.id.btnCreate);
         mainLayout = view.findViewById(R.id.mainLayout);
 
+        Button btnCancel = view.findViewById(R.id.btnCancel);
+
+        btnCancel.setOnClickListener(v -> requireActivity().getOnBackPressedDispatcher().onBackPressed());
+
         btnCreate.setOnClickListener(v -> uploadInternship());
 
 

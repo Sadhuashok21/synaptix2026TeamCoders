@@ -1,4 +1,4 @@
-package com.ascentracoresolutions.equiskill;
+package com.ascentracoresolutions.equiskill.Admin;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,39 +16,29 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.ascentracoresolutions.equiskill.Admin.AdminActivity;
 import com.ascentracoresolutions.equiskill.Admin.Upload.SkillUploadFragment;
 import com.ascentracoresolutions.equiskill.Admin.Upload.UploadFragment;
-import com.ascentracoresolutions.equiskill.SignIn.ChooseActivity;
+import com.ascentracoresolutions.equiskill.R;
 import com.ascentracoresolutions.equiskill.SignIn.SignInActivity;
 import com.ascentracoresolutions.equiskill.Users.Fragments.HomeFragment;
 import com.ascentracoresolutions.equiskill.Users.Fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.Objects;
+public class AdminActivity extends AppCompatActivity {
 
-public class MainActivity extends AppCompatActivity {
-
-
-    private BottomNavigationView bottomNavigationView;
-    private final ProfileFragment profileFragment = new ProfileFragment();
-    private final HomeFragment homeFragment = new HomeFragment();
-
-    public static final String url = "http://172.168.1.118:8000/apps/equiskill/";
     private Menu menu;
     SharedPreferences sharedPreferences;
-
-    public static final String SHARED_PREF = "shared_pref";
-    public static final String USER_ID = "user_id";
-    public static final String USER_TYPE = "user_type";
-    private String user_id;
+    private BottomNavigationView bottomNavigationView;
+    private final AProfileFragment profileFragment = new AProfileFragment();
+    private final AHomeFragment homeFragment = new AHomeFragment();
+    private final AStudentFragment aStudentFragment = new AStudentFragment();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_admin);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -56,21 +46,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
-
-
-        sharedPreferences = getSharedPreferences(SHARED_PREF, MODE_PRIVATE);
-        user_id = sharedPreferences.getString(USER_ID, null);
-        String user_type = sharedPreferences.getString(USER_TYPE, null);
-
-        if (user_type != null) {
-            if (user_type.equals("admin")) {
-                startActivity(new Intent(this, AdminActivity.class));
-            }
-        }
 
 
 
@@ -89,30 +69,24 @@ public class MainActivity extends AppCompatActivity {
                 getSupportFragmentManager().beginTransaction().replace(R.id.home_layout, homeFragment).addToBackStack(null).commit();
                 changeIcons(R.id.home);
             }
+            else if (menuItem.getItemId() == R.id.students) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.home_layout, aStudentFragment).addToBackStack(null).commit();
+                changeIcons(R.id.home);
+            }
 
             return true;
         });
 
         Window window = getWindow();
         window.setStatusBarColor(ContextCompat.getColor(this, R.color.primary_blue));
-        /* window.setNavigationBarColor(ContextCompat.getColor(this, R.color.button_color));*/
 
 
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         this.menu = menu;
-        getMenuInflater().inflate(R.menu.toolbar, menu);
-
-        String user_type = sharedPreferences.getString(USER_TYPE, null);
-
-
-        if (user_id != null) {
-
-            menu.findItem(R.id.sign_in).setVisible(false);
-        }
+        getMenuInflater().inflate(R.menu.admin_toolbar, menu);
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -120,12 +94,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-       if (item.getItemId() == R.id.sign_in) {
-            Intent i = new Intent(this, SignInActivity.class);
-            startActivity(i);
-       } else if(item.getItemId() == R.id.upload_skill) {
-           getSupportFragmentManager().beginTransaction().replace(R.id.home_layout, new SkillUploadFragment()).commit();
-       }
+        if(item.getItemId() == R.id.upload) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.home_layout, new UploadFragment()).commit();
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -140,22 +111,6 @@ public class MainActivity extends AppCompatActivity {
         if (profile != null) {
             profile.setIcon(R.drawable.person_circle);
         }
-//
-//
-//        MenuItem grid = bottomNavigationView.getMenu().findItem(R.id.grid);
-//        if (grid != null) {
-//            grid.setIcon(R.drawable.grid);
-//        }
-//
-//        MenuItem offer = bottomNavigationView.getMenu().findItem(R.id.orders);
-//        if (offer != null) {
-//            offer.setIcon(R.drawable.truck);
-//        }
-//
-//        MenuItem cart = bottomNavigationView.getMenu().findItem(R.id.cart);
-//        if (cart != null) {
-//            cart.setIcon(R.drawable.cart4);
-//        }
 
 
     }

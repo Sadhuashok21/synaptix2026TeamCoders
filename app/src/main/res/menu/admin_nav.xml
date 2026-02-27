@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:icon="@drawable/house_door_fill"
+        android:title="@string/home"
+        android:id="@+id/home"
+        android:tooltipText="@string/home" />
+
+
+    <item
+        android:icon="@drawable/building"
+        android:title="Internships"
+        android:id="@+id/internships"
+        android:tooltipText="@string/home" />
+
+    <item
+        android:icon="@drawable/person_fill"
+        android:title="Students"
+        android:id="@+id/students"
+        android:tooltipText="@string/home" />
+
+    <item
+        android:icon="@drawable/person_circle"
+        android:title="@string/profile"
+        android:id="@+id/profile"
+        android:tooltipText="@string/profile" />
+
+
+</menu>

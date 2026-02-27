@@ -4,13 +4,18 @@ public class Interns {
 
     private String title;
     private String companyName;
-    private String description;
+    private final String description, intern_id;
     private int matchScore;
 
-    public Interns(String title, String companyName, String description, int matchScore) {
+    public String getIntern_id() {
+        return intern_id;
+    }
+
+    public Interns(String title, String companyName, String description, String internId, int matchScore) {
         this.title = title;
         this.companyName = companyName;
         this.description = description;
+        intern_id = internId;
         this.matchScore = matchScore;
     }
 

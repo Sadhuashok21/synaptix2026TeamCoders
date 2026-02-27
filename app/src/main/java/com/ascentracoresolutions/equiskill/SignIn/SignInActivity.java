@@ -50,7 +50,7 @@ public class SignInActivity extends AppCompatActivity {
         }
 
         Window window = getWindow();
-        window.setStatusBarColor(ContextCompat.getColor(this, R.color.main));
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.primary_blue));
 
         ImageView eye, eye_slash;
 
@@ -94,7 +94,7 @@ public class SignInActivity extends AppCompatActivity {
                 layout.setAlpha(0.5f);
                 sign_in_btn.setEnabled(false);
                 InsertFetch insertFetch = new InsertFetch(this, error_info, MainActivity.class, sign_in_btn, layout);
-                insertFetch.fetchData(MainActivity.url + "apps/aaaab/signin?email=" + email_val + "&password=" + password_val);
+                insertFetch.fetchData(MainActivity.url + "signin?email=" + email_val + "&password=" + password_val);
 
             }
 

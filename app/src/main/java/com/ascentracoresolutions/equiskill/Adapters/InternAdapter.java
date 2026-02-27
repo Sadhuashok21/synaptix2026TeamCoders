@@ -2,6 +2,7 @@ package com.ascentracoresolutions.equiskill.Adapters;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +11,12 @@ import android.widget.TextView;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ascentracoresolutions.equiskill.Getters.Interns;
 import com.ascentracoresolutions.equiskill.R;
+import com.ascentracoresolutions.equiskill.Users.Fragments.DetailsFragment;
 
 import java.util.ArrayList;
 
@@ -42,28 +45,36 @@ public class InternAdapter extends RecyclerView.Adapter<InternAdapter.ViewHolder
         holder.jobDescription.setText(interns.getDescription());
 
 
-
         int score = interns.getMatchScore();
 
         if(score >= 80){
             holder.matchProgress.setProgressTintList(
                     ColorStateList.valueOf(Color.parseColor("#22C55E"))); // Green
-        }
-        else if(score >= 50){
+        } else if(score >= 50){
             holder.matchProgress.setProgressTintList(
                     ColorStateList.valueOf(Color.parseColor("#F59E0B"))); // Orange
-        }
-        else{
+        } else{
             holder.matchProgress.setProgressTintList(
                     ColorStateList.valueOf(Color.parseColor("#EF4444"))); // Red
         }
         holder.matchScore.setText(String.valueOf(score));
         holder.matchProgress.setProgress(score);
+
+
+        holder.viewDetailsBtn.setOnClickListener(v -> {
+            AppCompatActivity appCompatActivity = (AppCompatActivity) v.getContext();
+            DetailsFragment detailsFragment = new DetailsFragment();
+            Bundle args = new Bundle();
+            args.putString("int_id", interns.getIntern_id());
+            detailsFragment.setArguments(args);
+
+            appCompatActivity.getSupportFragmentManager().beginTransaction().replace(R.id.home_layout, detailsFragment).addToBackStack(null).commit();
+        });
     }
 
     @Override
     public int getItemCount() {
-        return list.size();   // ✅ IMPORTANT
+        return list.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -81,6 +92,9 @@ public class InternAdapter extends RecyclerView.Adapter<InternAdapter.ViewHolder
             matchScore = itemView.findViewById(R.id.matchScore);
             matchProgress = itemView.findViewById(R.id.matchProgress);
             viewDetailsBtn = itemView.findViewById(R.id.viewDetailsBtn);
+
+
+
         }
     }
 }

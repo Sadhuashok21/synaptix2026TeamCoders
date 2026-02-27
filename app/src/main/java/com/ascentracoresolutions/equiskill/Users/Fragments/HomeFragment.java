@@ -32,7 +32,7 @@ public class HomeFragment extends Fragment {
 
         ArrayList<Interns> list = new ArrayList<>();
 
-        list.add(new Interns("Frontend Developer Intern",
+    /*    list.add(new Interns("Frontend Developer Intern",
                 "TechCorp",
                 "Work with React and TypeScript",
                 92));
@@ -40,7 +40,7 @@ public class HomeFragment extends Fragment {
         list.add(new Interns("Backend Intern",
                 "CodeLabs",
                 "Django and REST APIs",
-                78));
+                78));*/
 
         InternAdapter adapter = new InternAdapter(list);
 

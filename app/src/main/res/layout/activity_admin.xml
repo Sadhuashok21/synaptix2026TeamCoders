@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".Admin.AdminActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
@@ -49,7 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/bottom_nav"
-        app:menu="@menu/bottom_nav"
+        app:menu="@menu/admin_nav"
         android:background="@color/white"
         android:layout_alignParentBottom="true"
         app:itemIconTint="@color/bottom_nav_icon_selector"
@@ -57,6 +57,8 @@
         app:labelVisibilityMode="labeled"
 
         />
+
+
 
 
 </RelativeLayout>
