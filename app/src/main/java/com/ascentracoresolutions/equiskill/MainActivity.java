@@ -10,11 +10,13 @@ import android.view.Window;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.ascentracoresolutions.equiskill.SignIn.ChooseActivity;
 import com.ascentracoresolutions.equiskill.SignIn.SignInActivity;
 import com.ascentracoresolutions.equiskill.Users.Fragments.HomeFragment;
 import com.ascentracoresolutions.equiskill.Users.Fragments.ProfileFragment;
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private final ProfileFragment profileFragment = new ProfileFragment();
     private final HomeFragment homeFragment = new HomeFragment();
 
+    public static final String url = "";
     private Menu menu;
     SharedPreferences sharedPreferences;
 
@@ -47,6 +50,11 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
 
 
         sharedPreferences = getSharedPreferences(SHARED_PREF, MODE_PRIVATE);
@@ -97,12 +105,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        if (item.getItemId() == R.id.profile) {
-//            getSupportFragmentManager().beginTransaction().replace(R.id.home_layout, cartFragment).addToBackStack(null).commit();
-//        } else if (item.getItemId() == R.id.signIn) {
-//            Intent i = new Intent(this, SignInActivity.class);
-//            startActivity(i);
-//        }
+       if (item.getItemId() == R.id.sign_in) {
+            Intent i = new Intent(this, ChooseActivity.class);
+            startActivity(i);
+       }
         return super.onOptionsItemSelected(item);
     }
 

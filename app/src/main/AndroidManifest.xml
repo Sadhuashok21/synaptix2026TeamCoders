@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EquiSkill">
         <activity
+            android:name=".SignIn.ChooseActivity"
+            android:exported="false" />
+        <activity
             android:name=".SignIn.SignUpActivity"
             android:exported="false" />
         <activity
