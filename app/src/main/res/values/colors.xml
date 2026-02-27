@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+
+    <color name="white_smoke">#F5F5F5</color>
+    <color name="button">#1B262E</color>
+    <color name="slate_gray">#4F4F4F</color>
+    <color name="toolbar">#121B22</color>
+
+    <color name="button_color">#4CAF50</color>
+    <color name="soft_green">#2E7D32</color>
+    <color name="red">#FF0000</color>
+    <color name="soft_blue">#03A9F4</color>
+
+    <!-- <color name="main">#1B5E20</color> -->
+    <color name="main">#00A63E</color>
+    <color name="text">#212121</color>
+
+
+    <color name="app_color">#9CDC3D</color>
+
+    <color name="star_rating">#ffe234</color>
+
+
+    <color name="fig_color">#14AE5C</color>
+    <color name="blue">#007BE5</color>
+
+
+    <color name="green_600">#00a63e</color>
+    <color name="blue_600">#155dfc</color>
+    <color name="violet_600">#4f39f6</color>
+    <color name="orange_600">#f54a00</color>
+    <color name="amber_600">#e17100</color>
+
+    <color name="blue_50">#eff6ff</color>
+    <color name="green_50">#f0fdf4</color>
+    <color name="amber_50">#fffbeb</color>
+    <color name="orange_50">#fff7ed</color>
+    <color name="violet_50">#faf5ff</color>
+
+    <color name="blue_color">#1447e6</color>
+    <color name="blue_light">#eff6ff</color>
+
+</resources>
